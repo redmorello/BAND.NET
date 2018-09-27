@@ -1,0 +1,85 @@
+﻿@using BAND.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+}
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">@ViewBag.Title</h1>
+        <p class="lead text-muted">Your Albums.</p>
+    </div>
+</section>
+
+@if (ViewBag.Albums != null)
+{
+    var albums = (List<Album>)ViewBag.Albums;
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                @foreach (var album in albums)
+                {
+                    <div class="col-md-4">
+                        <div class="card border-secondary mb-4">
+                            @*@if (!string.IsNullOrEmpty(band.CoverImageUrl))
+                                {
+                                    <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="@band.CoverImageUrl" data-holder-rendered="true">
+                                }*@
+                            <div class="card-body">
+                                <h5 class="card-title">Name: @album.Name</h5>
+                                <p class="card-text">Owner: @album.Owner.Name</p>
+                                <p>Album Key: @album.PhotoAlbumKey</p>
+                                <p>Created: @start.AddMilliseconds(album.CreatedAt).ToLocalTime()</p>
+                                <p>Photo Count: @album.PhotoCount</p>
+
+                                @*@if (album.PhotoCount > 0)
+                                    {
+                                        foreach (var photo in album.LatestPhotos)
+                                        {
+                                            <img src="@photo.Url" />
+                                        }
+                                    }*@
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        @Html.ActionLink("View Photos", "Photos", new { bandKey = album.BandKey, photoAlbumKey = album.PhotoAlbumKey }, new { @class = "btn btn-success btn-sm" })
+                                        @*<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>*@
+                                    </div>
+                                    @*<small class="text-muted">Comments: @post.CommentCount</small>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (ViewBag.Paging != null && ViewBag.Paging.NextParams != null)
+            {
+                var paging = (Paging)ViewBag.Paging;
+                <div class="row">
+                    <p>@paging.NextParams</p>
+                    @Html.ActionLink("Next Album", "Albums", new { paging = paging.NextParams.Limit }, new { @class = "btn btn-success" })
+                </div>
+            }
+
+        </div>
+    </div>
+}
+else
+{
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Error</h5>
+                            <p class="card-text">No albums available.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

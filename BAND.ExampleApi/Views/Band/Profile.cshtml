@@ -1,0 +1,44 @@
+﻿@using BAND.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">@ViewBag.Title</h1>
+        <p class="lead text-muted">Your profile</p>
+    </div>
+</section>
+
+<div class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="card" style="width: 18rem;">
+                @if (ViewBag.Profile != null)
+                {
+                    var profile = (Profile)ViewBag.Profile;
+                    if (!string.IsNullOrEmpty(profile.ProfileImageUrl))
+                    {
+                        <img class="card-img-top" src="@profile.ProfileImageUrl" alt="@profile.Name">
+                    }
+
+                    <div class="card-body">
+                        <h5 class="card-title">@profile.Name</h5>
+                        <p class="card-text">Key: @profile.UserKey</p>
+                        <p class="card-text">Is App Member: @profile.IsAppMember</p>
+                        <p class="card-text">Message Allowed: @profile.MessageAllowed</p>
+                        @Html.ActionLink("Your Bands", "Bands", null, new { @class = "btn btn-success" })
+                    </div>
+                }
+                else
+                {
+                    <div class="card-body">
+                        <h5 class="card-title">Profile Error</h5>
+                        <p class="card-text">No profile data available.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

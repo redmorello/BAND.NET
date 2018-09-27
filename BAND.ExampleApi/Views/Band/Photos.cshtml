@@ -1,0 +1,58 @@
+﻿@using BAND.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+}
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">@ViewBag.Title</h1>
+        <p class="lead text-muted">Your Photos.</p>
+    </div>
+</section>
+
+@if (ViewBag.Photos != null)
+{
+    var photos = (List<Photo>)ViewBag.Photos;
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="row">
+                @foreach (var photo in photos)
+                {
+                    <div class="col-md-4">
+                        <div class="card border-secondary mb-4">
+                            @if (!string.IsNullOrEmpty(photo.Url))
+                            {
+                                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="@photo.Url" data-holder-rendered="true">
+                            }
+                            <div class="card-body">
+                                <p class="card-text">@photo.Author.Name</p>
+                                <p>Key: @photo.PhotoKey</p>
+                                <p>Created: @start.AddMilliseconds(photo.CreatedAt).ToLocalTime()</p>
+                                <p>Comment Count: @photo.CommentCount</p>
+                                <p>Emotion Count: @photo.EmotionCount</p>
+                                <p>Width: @($"{photo.Width}px")</p>
+                                <p>Height: @($"{photo.Height}px")</p>
+                                <p>Is Video Thumbnail: @photo.IsVideoThumbnail</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        @*@Html.ActionLink("View Posts", "Posts", new { id = band.BandKey }, new { @class = "btn btn-success btn-sm" })
+                                            @Html.ActionLink("View Albums", "Albums", new { bandKey = band.BandKey }, new { @class = "btn btn-success btn-sm" })*@
+                                        @*<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>*@
+                                    </div>
+                                    @*<small class="text-muted">9 mins</small>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>No photos available</p>
+}

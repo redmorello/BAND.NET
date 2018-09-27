@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">BAND.NET</h1>
+        <p class="lead text-muted">BAND.NET is a free wrapper around the BAND.US API.</p>
+        <p>This website is just for testing the API integration. Please click the link below to login to BAND.</p>
+        @Html.ActionLink("Login to BAND >>", "Login", null, new { @class = "btn btn-success btn-lg" })
+    </div>
+</section>

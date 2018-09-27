@@ -1,2 +1,6 @@
 .vs/
 BAND/obj/
+BAND.ExampleApi/obj/
+packages/
+BAND/bin/
+BAND.ExampleApi/bin/

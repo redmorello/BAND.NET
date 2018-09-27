@@ -1,0 +1,81 @@
+﻿@using BAND.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+}
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">@ViewBag.Title</h1>
+        <p class="lead text-muted">Your Post.</p>
+    </div>
+</section>
+
+@if (ViewBag.Post != null)
+{
+    var post = (Post)ViewBag.Post;
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="card border-secondary mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Author: @post.Author.Name</h5>
+                            <p class="card-text">@post.Content</p>
+                            @*<p>Post Key: @post.PostKey</p>
+                                <p>Band Key: @post.BandKey</p>*@
+                            <p>Created: @start.AddMilliseconds(post.CreatedAt).ToLocalTime()</p>
+                            <p>Emotion Count: @post.EmotionCount</p>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+
+                                    @*<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>*@
+                                </div>
+                                <small class="text-muted">Is Multilingual: @post.IsMultilingual Shared Count: @post.SharedCount Post Read Count: @post.PostReadCount Comments: @post.CommentCount</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                @if (post.LatestComments != null && post.LatestComments.Any())
+                {
+                    <div class="col-md-6">
+                        <h4>Latest Comments:</h4>
+                        @foreach (var comment in post.LatestComments)
+                        {
+                            <div class="card mb-3">
+                                <strong class="card-title">Author: @comment.Author.Name</strong>
+                                <p>Posted: @start.AddMilliseconds(comment.CreatedAt).ToLocalTime()</p>
+                                <p class="card-text">@comment.Body</p>
+                            </div>
+
+                        }
+                    </div>
+                }
+
+                @if (post.Photos != null && post.Photos.Any())
+                {
+                    <div class="col-md-6">
+                        <h4>Latest Photos:</h4>
+                        @foreach (var photo in post.Photos)
+                        {
+                            <div class="card mb-3">
+                                <img src="@photo.Url" />
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Post not available</p>
+}
